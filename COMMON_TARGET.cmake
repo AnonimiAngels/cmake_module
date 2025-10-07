@@ -1,7 +1,18 @@
 function(common_compile_opts P_PROJECT_NAME P_SOURCES)
-	# Compiler flags
 	target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>)
 	target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>)
+
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-fsanitize=address>)
+		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-fsanitize=undefined>)
+		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-fsanitize=leak>)
+		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-fno-omit-frame-pointer>)
+		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-g>)
+
+		target_link_options(${P_PROJECT_NAME} PUBLIC -fsanitize=address)
+		target_link_options(${P_PROJECT_NAME} PUBLIC -fsanitize=undefined)
+		target_link_options(${P_PROJECT_NAME} PUBLIC -fsanitize=leak)
+	endif()
 
 	# Base warning set (works on both GCC and Clang)
 	target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wall>)
