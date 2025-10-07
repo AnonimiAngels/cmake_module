@@ -129,4 +129,10 @@ function(common_compile_opts P_PROJECT_NAME)
 		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-attribute=noreturn>)
 		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-attribute=format>)
 	endif()
+
+	# Apply clang-tidy if available
+	find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
+	if(CLANG_TIDY_EXE)
+		set_target_properties(${P_PROJECT_NAME} PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
+	endif()
 endfunction(common_compile_opts)
