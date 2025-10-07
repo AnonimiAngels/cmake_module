@@ -148,6 +148,11 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 	if(CLANG_TIDY_EXE)
 		set(CLANG_TIDY_FIXES_DIR ${CMAKE_BINARY_DIR}/clang-tidy-fixes)
 
+		add_custom_target(clang-tidy-clean-fixes-${P_PROJECT_NAME}
+			COMMAND ${CMAKE_COMMAND} -E remove_directory ${CLANG_TIDY_FIXES_DIR}
+			COMMENT "Cleaning clang-tidy fixes for ${P_PROJECT_NAME}"
+		)
+
 		add_custom_target(clang-tidy-export-fixes-${P_PROJECT_NAME}
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CLANG_TIDY_FIXES_DIR}
 			COMMAND ${CLANG_TIDY_EXE}
@@ -161,6 +166,7 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 				${P_SOURCES}
 			COMMENT "Exporting clang-tidy fixes for ${P_PROJECT_NAME}"
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+			DEPENDS clang-tidy-clean-fixes-${P_PROJECT_NAME}
 		)
 
 		if(CLANG_APPLY_REPLACEMENTS_EXE)
