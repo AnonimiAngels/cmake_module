@@ -132,7 +132,15 @@ function(common_compile_opts P_PROJECT_NAME)
 
 	# Apply clang-tidy if available
 	find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
-	if(CLANG_TIDY_EXE)
-		set_target_properties(${P_PROJECT_NAME} PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
+		if(CLANG_TIDY_EXE)
+			set(CLANG_TIDY_COMMAND
+			"${CLANG_TIDY_EXE}"
+			"--fix"
+			"--fix-errors"
+			"--format-style=file"
+		)
+		set_target_properties(${P_PROJECT_NAME} PROPERTIES
+			CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND}"
+		)
 	endif()
 endfunction(common_compile_opts)
