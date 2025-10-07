@@ -141,8 +141,6 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CLANG_TIDY_FIXES_DIR}
 			COMMAND ${CLANG_TIDY_EXE}
 				--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
-				--enable-module-headers-parsing
-				# --enable-check-profile
 				--fix-notes
 				--fix-errors
 				--quiet
