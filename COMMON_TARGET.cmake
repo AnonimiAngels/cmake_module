@@ -146,7 +146,7 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 	find_program(CLANG_APPLY_REPLACEMENTS_EXE NAMES "clang-apply-replacements")
 
 	if(CLANG_TIDY_EXE)
-		set(CLANG_TIDY_FIXES_DIR ${CMAKE_BINARY_DIR}/clang-tidy-fixes)
+		set(CLANG_TIDY_FIXES_DIR ${CMAKE_BINARY_DIR}/clang-tidy-fixes/${P_PROJECT_NAME})
 
 		add_custom_target(clang-tidy-clean-fixes-${P_PROJECT_NAME}
 			COMMAND ${CMAKE_COMMAND} -E remove_directory ${CLANG_TIDY_FIXES_DIR}
