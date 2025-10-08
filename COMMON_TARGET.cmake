@@ -157,7 +157,7 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CLANG_TIDY_FIXES_DIR}
 			COMMAND ${CLANG_TIDY_EXE}
 				--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
-				--fix-notes
+				--fix
 				--fix-errors
 				--quiet
 				--header-filter=.*
@@ -169,7 +169,7 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 			DEPENDS clang-tidy-clean-fixes-${P_PROJECT_NAME}
 		)
 
-		if(CLANG_APPLY_REPLACEMENTS_EXE)
+		if(CLANG_APPLY_REPLACEMENTS_EXE AND FALSE)
 			add_custom_target(clang-tidy-apply-fixes-${P_PROJECT_NAME}
 				COMMAND ${CLANG_APPLY_REPLACEMENTS_EXE}
 					--format
