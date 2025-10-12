@@ -112,24 +112,3 @@ function(setup_programs)
 		MESSAGE(STATUS "Shared Linker flags: ${CMAKE_SHARED_LINKER_FLAGS}")
 		MESSAGE(STATUS "Module Linker flags: ${CMAKE_MODULE_LINKER_FLAGS}")
 endfunction()
-
-function(setup_clang_tidy)
-		if (CLANG_TIDY_EXE)
-				SET(TIDY_FILE "${CMAKE_SOURCE_DIR}/.clang-tidy")
-				SET(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE};--config-file=${TIDY_FILE};-p=${CMAKE_BINARY_DIR};--use-color;--enable-module-headers-parsing"
-						PARENT_SCOPE)
-		endif()
-endfunction(setup_clang_tidy)
-
-function(setup_clang_format P_PROJECT_NAME)
-		if (CLANG_FORMAT_EXE)
-				SET(FORMAT_FILE "${CMAKE_SOURCE_DIR}/.clang-format")
-				ADD_CUSTOM_TARGET(
-						${P_PROJECT_NAME}_clang_format
-						COMMAND ${CLANG_FORMAT_EXE} -i ${ARGN}
-						WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-						COMMENT "Running clang-format on ${P_PROJECT_NAME}..."
-						VERBATIM
-				)
-		endif()
-endfunction(setup_clang_format)
