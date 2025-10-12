@@ -144,52 +144,32 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 	# Apply clang-tidy if available
 	find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
 	find_program(CLANG_APPLY_REPLACEMENTS_EXE NAMES "clang-apply-replacements")
-	option(AUTO_APPLY_CLANG_TIDY_FIXES "Automatically apply clang-tidy fixes on build" OFF)
 
 	if(CLANG_TIDY_EXE)
 		set(CLANG_TIDY_FIXES_DIR ${CMAKE_BINARY_DIR}/clang-tidy-fixes/${P_PROJECT_NAME})
 
-		# Target to clean previous fixes
 		add_custom_target(clang-tidy-clean-fixes-${P_PROJECT_NAME}
 			COMMAND ${CMAKE_COMMAND} -E remove_directory ${CLANG_TIDY_FIXES_DIR}
 			COMMENT "Cleaning clang-tidy fixes for ${P_PROJECT_NAME}"
 		)
 
-		# Configure clang-tidy arguments
-		set(ADDITIONAL_CLANG_TIDY_ARGS "")
-		set(DEPENDS_ON_CLANG_APPLY OFF)
-
-		if(AUTO_APPLY_CLANG_TIDY_FIXES)
-			list(APPEND ADDITIONAL_CLANG_TIDY_ARGS
-				--quiet
-				--fix
-				--fix-errors
-				--export-fixes=${CLANG_TIDY_FIXES_DIR}/fixes.yaml
-			)
-			set(DEPENDS_ON_CLANG_APPLY ON)
-		endif()
-
-		# Target to export/run clang-tidy
 		add_custom_target(clang-tidy-export-fixes-${P_PROJECT_NAME}
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CLANG_TIDY_FIXES_DIR}
 			COMMAND ${CLANG_TIDY_EXE}
-				${P_SOURCES}
 				--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
-				-p ${CMAKE_BINARY_DIR}
+				--fix
+				--fix-errors
+				--quiet
 				--header-filter=.*
-				${ADDITIONAL_CLANG_TIDY_ARGS}
+				-p ${CMAKE_BINARY_DIR}
+				--export-fixes=${CLANG_TIDY_FIXES_DIR}/fixes.yaml
+				${P_SOURCES}
 			COMMENT "Exporting clang-tidy fixes for ${P_PROJECT_NAME}"
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 			DEPENDS clang-tidy-clean-fixes-${P_PROJECT_NAME}
 		)
 
-		# Make project depend on clang-tidy checks when not auto-applying
-		if(NOT DEPENDS_ON_CLANG_APPLY)
-			add_dependencies(${P_PROJECT_NAME} clang-tidy-export-fixes-${P_PROJECT_NAME})
-		endif()
-
-		# Target to apply fixes if both tools available and auto-apply enabled
-		if(CLANG_APPLY_REPLACEMENTS_EXE AND AUTO_APPLY_CLANG_TIDY_FIXES)
+		if(CLANG_APPLY_REPLACEMENTS_EXE AND TRUE)
 			add_custom_target(clang-tidy-apply-fixes-${P_PROJECT_NAME}
 				COMMAND ${CLANG_APPLY_REPLACEMENTS_EXE}
 					--format
@@ -198,7 +178,7 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 				COMMENT "Applying clang-tidy fixes for ${P_PROJECT_NAME}"
 				DEPENDS clang-tidy-export-fixes-${P_PROJECT_NAME}
 			)
-			# Make the main project depend on applying fixes
+
 			add_dependencies(${P_PROJECT_NAME} clang-tidy-apply-fixes-${P_PROJECT_NAME})
 		endif()
 	endif()
