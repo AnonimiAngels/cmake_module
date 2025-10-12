@@ -140,46 +140,4 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-attribute=noreturn>)
 		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-attribute=format>)
 	endif()
-
-	# Apply clang-tidy if available
-	find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
-	find_program(CLANG_APPLY_REPLACEMENTS_EXE NAMES "clang-apply-replacements")
-
-	if(CLANG_TIDY_EXE)
-		set(CLANG_TIDY_FIXES_DIR ${CMAKE_BINARY_DIR}/clang-tidy-fixes/${P_PROJECT_NAME})
-
-		add_custom_target(clang-tidy-clean-fixes-${P_PROJECT_NAME}
-			COMMAND ${CMAKE_COMMAND} -E remove_directory ${CLANG_TIDY_FIXES_DIR}
-			COMMENT "Cleaning clang-tidy fixes for ${P_PROJECT_NAME}"
-		)
-
-		add_custom_target(clang-tidy-export-fixes-${P_PROJECT_NAME}
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${CLANG_TIDY_FIXES_DIR}
-			COMMAND ${CLANG_TIDY_EXE}
-				--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
-				--fix
-				--fix-errors
-				--quiet
-				--header-filter=.*
-				-p ${CMAKE_BINARY_DIR}
-				--export-fixes=${CLANG_TIDY_FIXES_DIR}/fixes.yaml
-				${P_SOURCES}
-			COMMENT "Exporting clang-tidy fixes for ${P_PROJECT_NAME}"
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-			DEPENDS clang-tidy-clean-fixes-${P_PROJECT_NAME}
-		)
-
-		if(CLANG_APPLY_REPLACEMENTS_EXE AND TRUE)
-			add_custom_target(clang-tidy-apply-fixes-${P_PROJECT_NAME}
-				COMMAND ${CLANG_APPLY_REPLACEMENTS_EXE}
-					--format
-					--style=file
-					${CLANG_TIDY_FIXES_DIR}
-				COMMENT "Applying clang-tidy fixes for ${P_PROJECT_NAME}"
-				DEPENDS clang-tidy-export-fixes-${P_PROJECT_NAME}
-			)
-
-			add_dependencies(${P_PROJECT_NAME} clang-tidy-apply-fixes-${P_PROJECT_NAME})
-		endif()
-	endif()
 endfunction(common_compile_opts)
