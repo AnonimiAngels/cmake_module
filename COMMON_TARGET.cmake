@@ -118,7 +118,7 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 
 		# Memory safety (GCC-enhanced)
 		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Warray-bounds=2>)
-		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wstrict-overflow=4>)
+		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wno-strict-overflow>)
 		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wformat-overflow=2>)
 		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wformat-truncation=2>)
 		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wstringop-overflow=4>)

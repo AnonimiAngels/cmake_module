@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.30)
 
 find_package(Git REQUIRED)
 
-set(Python3_ROOT_DIR "/usr")
-find_package(Python3 REQUIRED COMPONENTS Interpreter)
+SET(PYTHON3_EXECUTABLE "python3" CACHE FILEPATH "Path to the python3 executable")
 
 if(NOT DEFINED mng_source_cache)
 	set(mng_source_cache "${CMAKE_CURRENT_SOURCE_DIR}/deps" CACHE PATH "Directory to cache downloaded packages")
@@ -14,7 +13,7 @@ file(MAKE_DIRECTORY "${mng_source_cache}")
 set(_mng_impl_script "${CMAKE_CURRENT_LIST_DIR}/mng_impl.py")
 
 function(_mng_run)
-	set(_mng_command ${Python3_EXECUTABLE})
+	set(_mng_command ${PYTHON3_EXECUTABLE})
 	list(APPEND _mng_command -u "${_mng_impl_script}")
 	list(APPEND _mng_command ${ARGN})
 	string(JOIN " " _mng_command_str ${_mng_command})
