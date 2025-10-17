@@ -116,6 +116,7 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 
 	# Clang-specific warnings
 	if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+
 		# Float conversion warnings
 		try_set_flag(${P_PROJECT_NAME} "-Wimplicit-int-float-conversion")
 		try_set_flag(${P_PROJECT_NAME} "-Wimplicit-float-conversion")
