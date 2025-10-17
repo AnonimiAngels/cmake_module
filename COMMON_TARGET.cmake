@@ -18,6 +18,7 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 	try_set_flag(${P_PROJECT_NAME} "-fno-rtti")
 	try_set_flag(${P_PROJECT_NAME} "-fno-exceptions")
 	try_set_flag(${P_PROJECT_NAME} "-ffile-prefix-map=${CMAKE_SOURCE_DIR}/=")
+	try_set_flag(${P_PROJECT_NAME} "-fdebug-prefix-map=${CMAKE_SOURCE_DIR}/=")
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		try_set_flag(${P_PROJECT_NAME} "-fsanitize=address")
