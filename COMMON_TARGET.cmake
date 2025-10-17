@@ -1,6 +1,8 @@
 function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 	target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>)
 	target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>)
+	target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-ffile-prefix-map=/dev/shm/astor_engine_build/=>)
+	target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:C>:-ffile-prefix-map=/dev/shm/astor_engine_build/=>)
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		target_compile_options(${P_PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-fsanitize=address>)
