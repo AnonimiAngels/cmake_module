@@ -22,6 +22,12 @@ class logger:
 	def __init__(self, p_output=sys.stdout):
 		self.m_output = p_output
 		self.m_lock = Lock()
+		self.m_levels = {
+			"INFO": "[*]",
+			"ERROR": "[!]",
+			"SUCCESS": "[+]"
+		}
+		self.m_level = "ERROR"
 
 	def log(self, p_msg: str, p_flush: bool = True) -> None:
 		with self.m_lock:
@@ -30,16 +36,20 @@ class logger:
 				self.m_output.flush()
 
 	def info(self, p_msg: str) -> None:
-		self.log(f"INFO:{p_msg}")
+		if self.m_level in ["INFO"]:
+			self.log(f"INFO:{p_msg}")
 
 	def error(self, p_msg: str) -> None:
-		self.log(f"ERROR:{p_msg}")
+		if self.m_level in ["INFO", "ERROR"]:
+			self.log(f"ERROR:{p_msg}")
 
 	def success(self, p_msg: str) -> None:
-		self.log(f"SUCCESS:{p_msg}")
+		if self.m_level in ["INFO", "ERROR", "SUCCESS"]:
+			self.log(f"SUCCESS:{p_msg}")
 
 	def status(self, p_status: str, p_name: str) -> None:
-		self.log(f"{p_status}:{p_name}")
+		if self.m_level in ["INFO"]:
+			self.log(f"{p_status}:{p_name}")
 
 
 g_logger = logger()
