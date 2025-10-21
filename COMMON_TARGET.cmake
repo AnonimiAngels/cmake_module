@@ -34,10 +34,6 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 	try_set_flag(${P_PROJECT_NAME} "-fno-rtti")
 	# Disable C++ exceptions (aligned with no-exception policy)
 	try_set_flag(${P_PROJECT_NAME} "-fno-exceptions")
-	# Remove absolute paths from compiled binaries for reproducible builds
-	try_set_flag_with_test(${P_PROJECT_NAME} "-ffile-prefix-map=${CMAKE_SOURCE_DIR}/=" "-ffile-prefix-map=/tmp/=")
-	# Remove absolute paths from debug information for reproducible builds
-	try_set_flag_with_test(${P_PROJECT_NAME} "-fdebug-prefix-map=${CMAKE_SOURCE_DIR}/=" "-fdebug-prefix-map=/tmp/=")
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		# Detect memory errors like buffer overflows and use-after-free
@@ -633,6 +629,7 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 	try_set_flag(${P_PROJECT_NAME} "-Wvector-operation-performance")
 	# Warn about pointer-to-member function conversions
 	try_set_flag(${P_PROJECT_NAME} "-Wpmf-conversions")
+	try_set_flag(${P_PROJECT_NAME} "-Wnrvo")
 
 	# Stack protection
 	# Warn when stack protection is not effective
