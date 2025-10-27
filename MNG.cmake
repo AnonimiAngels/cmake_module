@@ -173,6 +173,6 @@ function(mng_add_package)
 	endif()
 endfunction()
 
-function(set_scope var_name var_value)
-	SET(${var_name} ${var_value} CACHE INTERNAL "" FORCE)
+function(set_scope var_name)
+	SET(${var_name} ${ARGN} CACHE INTERNAL "" FORCE)
 endfunction()
