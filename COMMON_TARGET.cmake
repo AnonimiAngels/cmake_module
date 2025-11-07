@@ -635,3 +635,32 @@ function(common_compile_opts P_PROJECT_NAME P_SOURCES)
 	# Warn when stack protection is not effective
 	try_set_flag(${P_PROJECT_NAME} "-Wstack-protector")
 endfunction(common_compile_opts)
+
+function(enable_clang_tidy)
+	find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
+	find_program(CLANG_TIDY_CACHE_EXE NAMES "clang-tidy-cache")
+
+	SET(CLANG_TIDY_ARGS
+		"--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy"
+		"--extra-arg=-Wno-unknown-warning-option" "--fix" "--quiet"
+	)
+
+	if(CLANG_TIDY_EXE AND CLANG_TIDY_CACHE_EXE)
+		SET(CMAKE_CXX_CLANG_TIDY
+			"${CLANG_TIDY_CACHE_EXE};${CLANG_TIDY_EXE}"
+			"${CLANG_TIDY_ARGS}"
+		)
+	elseif(CLANG_TIDY_EXE)
+		SET(CMAKE_CXX_CLANG_TIDY
+			"${CLANG_TIDY_EXE}"
+			"${CLANG_TIDY_ARGS}"
+		)
+	else()
+		message(WARNING "clang-tidy not found!")
+	endif()
+endfunction(enable_clang_tidy)
+
+function(disable_clang_tidy)
+	unset(CMAKE_CXX_CLANG_TIDY)
+endfunction(disable_clang_tidy)
+
