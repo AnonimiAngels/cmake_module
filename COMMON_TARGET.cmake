@@ -665,7 +665,7 @@ function(enable_clang_tidy)
 endfunction(enable_clang_tidy)
 
 function(disable_clang_tidy)
-	unset(CMAKE_CXX_CLANG_TIDY)
+	unset(CMAKE_CXX_CLANG_TIDY PARENT_SCOPE)
 endfunction(disable_clang_tidy)
 
 function(check_main_project)
