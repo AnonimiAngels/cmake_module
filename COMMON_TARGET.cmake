@@ -649,11 +649,15 @@ function(enable_clang_tidy)
 		SET(CMAKE_CXX_CLANG_TIDY
 			"${CLANG_TIDY_CACHE_EXE};${CLANG_TIDY_EXE}"
 			"${CLANG_TIDY_ARGS}"
+
+			PARENT_SCOPE
 		)
 	elseif(CLANG_TIDY_EXE)
 		SET(CMAKE_CXX_CLANG_TIDY
 			"${CLANG_TIDY_EXE}"
 			"${CLANG_TIDY_ARGS}"
+
+			PARENT_SCOPE
 		)
 	else()
 		message(WARNING "clang-tidy not found!")
