@@ -29,7 +29,7 @@ function(try_set_flag_with_test P_PROJECT_NAME P_FLAG P_TEST_FLAG)
 endfunction(try_set_flag_with_test)
 
 
-function(common_compile_opts P_PROJECT_NAME P_SOURCES)
+function(common_compile_opts P_PROJECT_NAME)
 	# Disable runtime type information for smaller binaries and faster code
 	try_set_flag(${P_PROJECT_NAME} "-fno-rtti")
 	# Disable C++ exceptions (aligned with no-exception policy)
