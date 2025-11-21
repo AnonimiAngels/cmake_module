@@ -659,8 +659,6 @@ function(enable_clang_tidy)
 
 			PARENT_SCOPE
 		)
-	else()
-		message(WARNING "clang-tidy not found!")
 	endif()
 endfunction(enable_clang_tidy)
 
