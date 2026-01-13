@@ -637,25 +637,26 @@ function(common_compile_opts P_PROJECT_NAME)
 endfunction(common_compile_opts)
 
 function(enable_clang_tidy)
-	find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
+	find_program(CLANG_TIDY_PROGRAM NAMES "clang-tidy")
 
 	SET(CLANG_TIDY_ARGS
 		"--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy"
 		"--extra-arg=-Wno-unknown-warning-option" "--fix" "--quiet"
 	)
 
-	set(CTCACHE_WRAPPER "${CMAKE_SOURCE_DIR}/deps/CTCACHE/CTCACHE/clang-tidy")
+	SET(CLANG_TIDY_CACHER "clang-tidy-cache")
 
-	if(CLANG_TIDY_EXE)
+	if(CLANG_TIDY_PROGRAM)
 		SET(CMAKE_CXX_CLANG_TIDY
-			"${CTCACHE_WRAPPER}"
+			"${CLANG_TIDY_CACHER}"
+			"${CLANG_TIDY_PROGRAM}"
 			"${CLANG_TIDY_ARGS}"
 
 			PARENT_SCOPE
 		)
-	elseif(CLANG_TIDY_EXE AND FALSE)
+	elseif(CLANG_TIDY_PROGRAM AND FALSE)
 		SET(CMAKE_CXX_CLANG_TIDY
-			"${CLANG_TIDY_EXE}"
+			"${CLANG_TIDY_PROGRAM}"
 			"${CLANG_TIDY_ARGS}"
 
 			PARENT_SCOPE
@@ -674,8 +675,3 @@ function(check_main_project)
 		set(IS_MAIN_PROJECT FALSE PARENT_SCOPE)
 	endif()
 endfunction(check_main_project)
-
-if(NOT DEFINED COMMON_TARGET_MODULES_INCLUDED)
-	set(COMMON_TARGET_MODULES_INCLUDED TRUE CACHE INTERNAL "")
-	add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/modules ${CMAKE_BINARY_DIR}/_deps/cmake_modules)
-endif()
