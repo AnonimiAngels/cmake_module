@@ -11,7 +11,7 @@ CONFIG_PATH = Path.home() / ".config/clang_tidy_cacher/config.json"
 
 DEFAULTS = {
 	"max_cache_size": 16 * 1024 * 1024 * 1024,
-	"cache_dir": str(Path.home() / ".clang_tidy_cache"),
+	"cache_dir": str(Path.home() / ".cache/clang_tidy_cache"),
 	"cleanup_threshold": 0.9,
 	"cleanup_target": 0.7,
 	"cleanup_interval": 100,
