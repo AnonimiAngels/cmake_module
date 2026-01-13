@@ -644,7 +644,7 @@ function(enable_clang_tidy)
 		"--extra-arg=-Wno-unknown-warning-option" "--fix" "--quiet"
 	)
 
-	SET(CLANG_TIDY_CACHER "clang-tidy-cache")
+	SET(CLANG_TIDY_CACHER "${CMAKE_SOURCE_DIR}/cmake/tools/clang_tidy_cacher.py")
 
 	if(CLANG_TIDY_PROGRAM)
 		SET(CMAKE_CXX_CLANG_TIDY
