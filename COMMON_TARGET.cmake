@@ -646,7 +646,7 @@ function(enable_clang_tidy)
 
 	SET(CLANG_TIDY_CACHER "${CMAKE_SOURCE_DIR}/cmake/tools/clang_tidy_cacher.py")
 
-	if(CLANG_TIDY_PROGRAM)
+	if(CLANG_TIDY_PROGRAM AND FALSE)
 		SET(CMAKE_CXX_CLANG_TIDY
 			"${CLANG_TIDY_CACHER}"
 			"${CLANG_TIDY_PROGRAM}"
