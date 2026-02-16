@@ -634,6 +634,237 @@ function(common_compile_opts P_PROJECT_NAME)
 	# Stack protection
 	# Warn when stack protection is not effective
 	try_set_flag(${P_PROJECT_NAME} "-Wstack-protector")
+
+	# ========================================
+	# DANGLING / LIFETIME SAFETY (Clang 16+)
+	# ========================================
+
+	# Warn about dangling references and pointers (umbrella)
+	try_set_flag(${P_PROJECT_NAME} "-Wdangling")
+	# Warn about dangling assignments (assigning address of temporary)
+	try_set_flag(${P_PROJECT_NAME} "-Wdangling-assignment")
+	# Warn about dangling assignments for GSL-annotated types
+	try_set_flag(${P_PROJECT_NAME} "-Wdangling-assignment-gsl")
+	# Warn about capturing dangling references in lambdas
+	try_set_flag(${P_PROJECT_NAME} "-Wdangling-capture")
+	# Warn about dangling field references in constructors
+	try_set_flag(${P_PROJECT_NAME} "-Wdangling-field")
+	# Warn about dangling GSL pointer/owner types
+	try_set_flag(${P_PROJECT_NAME} "-Wdangling-gsl")
+	# Warn about dangling initializer_list temporaries
+	try_set_flag(${P_PROJECT_NAME} "-Wdangling-initializer-list")
+	# Warn about returning address of stack variable
+	try_set_flag(${P_PROJECT_NAME} "-Wreturn-stack-address")
+
+	# ========================================
+	# NULL POINTER / UNDEFINED BEHAVIOR
+	# ========================================
+
+	# Warn about arithmetic on null pointers (nullptr + N is UB)
+	try_set_flag(${P_PROJECT_NAME} "-Wnull-pointer-arithmetic")
+	# Warn about subtracting null pointers
+	try_set_flag(${P_PROJECT_NAME} "-Wnull-pointer-subtraction")
+	# Warn about undefined behavior in argument evaluation
+	try_set_flag(${P_PROJECT_NAME} "-Wargument-undefined-behaviour")
+	# Warn about unsequenced modifications (a[i] = i++ etc.)
+	try_set_flag(${P_PROJECT_NAME} "-Wunsequenced")
+	# Warn about mismatched new/delete or new[]/delete
+	try_set_flag(${P_PROJECT_NAME} "-Wmismatched-new-delete")
+	# Warn about calling pure virtual functions from ctor/dtor
+	try_set_flag(${P_PROJECT_NAME} "-Wcall-to-pure-virtual-from-ctor-dtor")
+	# Warn about deleting abstract type through non-virtual destructor
+	try_set_flag(${P_PROJECT_NAME} "-Wdelete-abstract-non-virtual-dtor")
+	# Warn about deleting non-abstract type through non-virtual destructor
+	try_set_flag(${P_PROJECT_NAME} "-Wdelete-non-abstract-non-virtual-dtor")
+	# Warn about integer overflow detected at compile time
+	try_set_flag(${P_PROJECT_NAME} "-Winteger-overflow")
+	# Warn about memcpy/memset on non-trivial C++ types
+	try_set_flag(${P_PROJECT_NAME} "-Wnontrivial-memaccess")
+	# Warn about dynamic class memaccess (memcpy on polymorphic types)
+	try_set_flag(${P_PROJECT_NAME} "-Wdynamic-class-memaccess")
+
+	# ========================================
+	# DEAD CODE / UNREACHABLE (additional)
+	# ========================================
+
+	# Warn about unreachable fallthrough annotations in switch
+	try_set_flag(${P_PROJECT_NAME} "-Wunreachable-code-fallthrough")
+	# Warn about unreachable loop increment expressions
+	try_set_flag(${P_PROJECT_NAME} "-Wunreachable-code-loop-increment")
+	# Warn about unnecessary virtual/override specifiers on final types
+	try_set_flag(${P_PROJECT_NAME} "-Wunnecessary-virtual-specifier")
+	# Warn about redundant consteval-if
+	try_set_flag(${P_PROJECT_NAME} "-Wredundant-consteval-if")
+
+	# ========================================
+	# TYPE SAFETY / CONVERSION (additional)
+	# ========================================
+
+	# Warn about bitwise operators used instead of logical (&& vs &)
+	try_set_flag(${P_PROJECT_NAME} "-Wbitwise-instead-of-logical")
+	# Warn about constant truncation in bitfield assignments
+	try_set_flag(${P_PROJECT_NAME} "-Wbitfield-constant-conversion")
+	# Warn about enum to bitfield conversion issues
+	try_set_flag(${P_PROJECT_NAME} "-Wbitfield-enum-conversion")
+	# Warn about bitfield width exceeding type width
+	try_set_flag(${P_PROJECT_NAME} "-Wbitfield-width")
+	# Warn about signed enum in unsigned bitfield
+	try_set_flag(${P_PROJECT_NAME} "-Wsigned-enum-bitfield")
+	# Warn about cast between incompatible function pointer types
+	try_set_flag(${P_PROJECT_NAME} "-Wcast-function-type-mismatch")
+	# Strict function pointer type cast checking
+	try_set_flag(${P_PROJECT_NAME} "-Wcast-function-type-strict")
+	# Warn about float-to-int overflow conversion
+	try_set_flag(${P_PROJECT_NAME} "-Wfloat-overflow-conversion")
+	# Warn about float-to-int zero conversion
+	try_set_flag(${P_PROJECT_NAME} "-Wfloat-zero-conversion")
+	# Warn about implicit literal conversions (truncation)
+	try_set_flag(${P_PROJECT_NAME} "-Wliteral-conversion")
+	# Warn about constant conversion that changes value
+	try_set_flag(${P_PROJECT_NAME} "-Wconstant-conversion")
+	# Warn about implicit enum-to-enum cast
+	try_set_flag(${P_PROJECT_NAME} "-Wimplicit-enum-enum-cast")
+	# Warn about implicit int-to-enum cast
+	try_set_flag(${P_PROJECT_NAME} "-Wimplicit-int-enum-cast")
+	# Warn about implicit int conversions (wider umbrella)
+	try_set_flag(${P_PROJECT_NAME} "-Wimplicit-int-conversion")
+
+	# ========================================
+	# TAUTOLOGICAL CHECKS (additional)
+	# ========================================
+
+	# Warn about tautological bitwise comparisons
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-bitwise-compare")
+	# Warn about tautological comparisons with constants
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-constant-compare")
+	# Warn about comparisons with out-of-range constants
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-constant-out-of-range-compare")
+	# Warn about tautological pointer comparisons (ptr != ptr)
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-pointer-compare")
+	# Warn about comparisons always true/false due to type limits
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-type-limit-compare")
+	# Warn about comparisons involving undefined behavior
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-undefined-compare")
+	# Warn about unsigned == 0 comparisons that are always true/false
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-unsigned-zero-compare")
+	# Warn about unsigned enum compared to zero
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-unsigned-enum-zero-compare")
+	# Warn about overlapping comparison ranges
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-overlap-compare")
+	# Warn about tautological negation comparisons
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-negation-compare")
+	# Warn about value range tautologies
+	try_set_flag(${P_PROJECT_NAME} "-Wtautological-value-range-compare")
+
+	# ========================================
+	# THREAD SAFETY (additional precision)
+	# ========================================
+
+	# Warn about thread safety analysis details
+	try_set_flag(${P_PROJECT_NAME} "-Wthread-safety-analysis")
+	# Warn about missing thread safety attributes
+	try_set_flag(${P_PROJECT_NAME} "-Wthread-safety-attributes")
+	# -Wthread-safety-negative omitted: requires EXCLUDES() annotations on every lock-acquiring function
+	# Warn about thread safety pointer issues
+	try_set_flag(${P_PROJECT_NAME} "-Wthread-safety-pointer")
+	# Precise thread safety analysis
+	try_set_flag(${P_PROJECT_NAME} "-Wthread-safety-precise")
+	# Warn about passing references across thread boundaries
+	try_set_flag(${P_PROJECT_NAME} "-Wthread-safety-reference")
+	# Warn about returning references to guarded data
+	try_set_flag(${P_PROJECT_NAME} "-Wthread-safety-reference-return")
+
+	# ========================================
+	# MODERN C++ QUALITY (additional)
+	# ========================================
+
+	# Warn about defaulted special members that are actually deleted
+	try_set_flag(${P_PROJECT_NAME} "-Wdefaulted-function-deleted")
+	# Suggest adding destructor override
+	try_set_flag(${P_PROJECT_NAME} "-Wsuggest-destructor-override")
+	# Warn about final destructor in non-final class
+	try_set_flag(${P_PROJECT_NAME} "-Wfinal-dtor-non-final-class")
+	# Warn about deprecated copy with user-declared destructor
+	try_set_flag(${P_PROJECT_NAME} "-Wdeprecated-copy-with-dtor")
+	# Warn about deprecated copy with user-provided copy
+	try_set_flag(${P_PROJECT_NAME} "-Wdeprecated-copy-with-user-provided-copy")
+	# Warn about deprecated copy with user-provided destructor
+	try_set_flag(${P_PROJECT_NAME} "-Wdeprecated-copy-with-user-provided-dtor")
+	# Warn about constructor member init list reordering
+	try_set_flag(${P_PROJECT_NAME} "-Wreorder-ctor")
+	# Warn about designated initializer list reordering
+	try_set_flag(${P_PROJECT_NAME} "-Wreorder-init-list")
+	# Warn about extra semicolons in statement position
+	try_set_flag(${P_PROJECT_NAME} "-Wextra-semi-stmt")
+	# Warn about unqualified std::move/std::forward calls
+	try_set_flag(${P_PROJECT_NAME} "-Wunqualified-std-cast-call")
+	# Warn about XOR used where exponentiation was likely intended
+	try_set_flag(${P_PROJECT_NAME} "-Wxor-used-as-pow")
+	# Warn about string + int (pointer arithmetic, not concatenation)
+	try_set_flag(${P_PROJECT_NAME} "-Wstring-plus-int")
+	# Warn about string + char (pointer arithmetic, not append)
+	try_set_flag(${P_PROJECT_NAME} "-Wstring-plus-char")
+	# Warn about string concatenation across macros
+	try_set_flag(${P_PROJECT_NAME} "-Wstring-concatenation")
+	# Warn about undefined internal-linkage symbols
+	try_set_flag(${P_PROJECT_NAME} "-Wundefined-internal")
+	# Warn about header guard issues
+	try_set_flag(${P_PROJECT_NAME} "-Wheader-guard")
+	# -Wreserved-identifier omitted: fires on ABI-mandated __cyg_profile_func_* hooks
+	# -Wreserved-macro-identifier omitted: fires on system/ABI macros
+
+	# ========================================
+	# BUFFER SAFETY / FORTIFY (Clang 18+)
+	# ========================================
+
+	# Warn about buffer overflow via _FORTIFY_SOURCE checks
+	try_set_flag(${P_PROJECT_NAME} "-Wfortify-source")
+
+	# ========================================
+	# SHIFT / BITWISE SAFETY (additional)
+	# ========================================
+
+	# Warn about shifting a bool value
+	try_set_flag(${P_PROJECT_NAME} "-Wshift-bool")
+	# Warn about negative shift count
+	try_set_flag(${P_PROJECT_NAME} "-Wshift-count-negative")
+	# Warn about shift count >= width of type
+	try_set_flag(${P_PROJECT_NAME} "-Wshift-count-overflow")
+
+	# ========================================
+	# CONSTRUCTOR / INITIALIZATION SAFETY
+	# ========================================
+
+	# Warn about sometimes-uninitialized variables (path-sensitive)
+	try_set_flag(${P_PROJECT_NAME} "-Wsometimes-uninitialized")
+	# Warn about static local variables self-initializing
+	try_set_flag(${P_PROJECT_NAME} "-Wstatic-self-init")
+	# Warn about vexing parse (most vexing parse ambiguity)
+	try_set_flag(${P_PROJECT_NAME} "-Wvexing-parse")
+	# Warn about init-list lifetime issues (dangling in init-lists)
+	try_set_flag(${P_PROJECT_NAME} "-Winit-list-lifetime")
+
+	# ========================================
+	# PERFORMANCE HINTS (Clang 20+)
+	# ========================================
+
+	# Warn when noexcept is implied by performance constraints
+	try_set_flag(${P_PROJECT_NAME} "-Wperf-constraint-implies-noexcept")
+	# Warn about ordered comparisons of function pointers (unstable)
+	try_set_flag(${P_PROJECT_NAME} "-Wordered-compare-function-pointers")
+
+	# ========================================
+	# C++26 / MODERN STANDARDS (Clang 20+)
+	# ========================================
+
+	# Warn about array comparisons in C++26 mode
+	try_set_flag(${P_PROJECT_NAME} "-Warray-compare-cxx26")
+	# Warn about modules with declarations in multiple modules
+	try_set_flag(${P_PROJECT_NAME} "-Wdecls-in-multiple-modules")
+	# Warn about default-const-init fields (uninitialized const members)
+	try_set_flag(${P_PROJECT_NAME} "-Wdefault-const-init-field-unsafe")
+	# Warn about default-const-init vars (uninitialized const locals)
+	try_set_flag(${P_PROJECT_NAME} "-Wdefault-const-init-var-unsafe")
 endfunction(common_compile_opts)
 
 function(enable_clang_tidy)
